@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Records</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa; /* Light Background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #3498db, #8e44ad); /* Gradient Button */
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-group button:hover {
+            background: linear-gradient(to right, #2980b9, #6c3483);
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #3498db;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #8e44ad;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+        <h2>Upload Patient Records</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="record_file">Select a file to upload:</label>
+                <input type="file" id="record_file" name="record_file" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Upload</button>
+            </div>
+        </form>
+        <a href="{{ url_for('doctor_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

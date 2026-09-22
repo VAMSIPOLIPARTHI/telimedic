@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Lab Report</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff; /* White Background */
+            color: #000; /* Black Text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 0px #000; /* Sharp Shadow for a Bold Look */
+            text-align: center;
+            border: 2px solid #000; /* Black Border */
+        }
+
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+        }
+
+        select, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input[type="file"]:focus {
+            border-color: #444;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000; /* Black Button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+
+        a {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 12px;
+            background-color: #555; /* Dark Gray Button */
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #333;
+        }
+
+        .flash-messages p {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .flash-messages .danger {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+
+        .flash-messages .success {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+        <h1>Upload Lab Report</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <label for="doctor_id">Select Doctor:</label>
+            <select name="doctor_id" id="doctor_id" required>
+                <option value="">-- Select a Doctor --</option>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">{{ doctor.name }} ({{ doctor.specialization }})</option>
+                {% endfor %}
+            </select>
+
+            <label for="lab_report_file">Upload Lab Report:</label>
+            <input type="file" name="lab_report_file" id="lab_report_file" required>
+
+            <button type="submit">Upload</button>
+        </form>
+
+        <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

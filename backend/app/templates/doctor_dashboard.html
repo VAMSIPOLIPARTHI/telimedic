@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: black;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #2c3e50;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .logo {
+            width: 150px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid black;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar li {
+            margin: 15px 0;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: white;
+            color: black;
+        }
+
+        .logout-link {
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 270px; /* Adjust to match sidebar width */
+            padding: 40px;
+            width: calc(100% - 270px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Doctor Profile */
+        .profile-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid black;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin: 20px 0 10px;
+            text-align: left;
+            width: 100%;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        /* Table Styling */
+        .table-container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+
+        th {
+            background: black;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        /* Upload Records Form */
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-container label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background: white;
+            color: black;
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+        </div>
+        <ul>
+            <li><a href="{{ url_for('view_lab_reports') }}">📝 View Lab Reports</a></li>
+            <li><a href="{{ url_for('video_call') }}">📹 Start a Video Call</a></li>
+            <li><a href="{{ url_for('profile') }}">👤 View Profile</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-link" onclick="return confirm('Are you sure you want to logout?');">🚪 Logout</a></li>
+            {% if doctor.get('is_admin') %}
+                <li><a href="{{ url_for('manage_patients') }}">👥 Manage Patients</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Welcome, {{ doctor['name'] }}</h2>
+        <p>Specialization: {{ doctor['specialization'] }}</p>
+        {% if doctor['photo'] %}
+            <img src="{{ url_for('static', filename=doctor['photo']) }}" alt="Doctor's Photo" class="profile-photo">
+        {% else %}
+            <p>No photo available</p>
+        {% endif %}
+
+        <!-- Appointments Table -->
+        <h3>Your Appointments</h3>
+        <div class="table-container">
+            {% if appointments|length > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ appointment.patient_name }}</td>
+                                <td>{{ appointment.date }}</td>
+                                <td>{{ appointment.time }}</td>
+                                <td>
+                                    <a href="{{ url_for('reply_to_patient', appointment_id=appointment.id) }}">✉️ Reply</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No appointments scheduled.</p>
+            {% endif %}
+        </div>
+
+        <!-- Upload Patient Records Form -->
+        <h3>Upload Patient Records</h3>
+        <div class="form-container">
+            <form action="{{ url_for('upload_records') }}" method="post" enctype="multipart/form-data">
+                <label for="patient_id">Patient ID:</label>
+                <input type="text" id="patient_id" name="patient_id" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

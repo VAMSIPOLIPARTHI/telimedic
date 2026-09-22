@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swasthya Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Sidebar with toggle functionality */
+        .sidebar {
+            position: fixed;
+            left: -240px;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            z-index: 10;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: #FFC107;
+            color: white;
+            font-size: 28px;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: #FF6B6B;
+        }
+
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar li {
+            margin: 15px 0;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 15px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: #FFC107;
+            color: black;
+            transform: translateX(5px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 50px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.shift {
+            margin-left: 250px;
+        }
+
+        .logo {
+            width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .animate-h1 {
+            color: #222;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .patient-dashboard {
+            width: 80%;
+            max-width: 800px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .patient-dashboard h2 {
+            color: black;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .patient-dashboard ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .patient-dashboard li {
+            margin: 15px 0;
+        }
+
+        .patient-dashboard a {
+            text-decoration: none;
+            color: #222;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .patient-dashboard a:hover {
+            color: #007BFF;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 10px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .animate-h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <h2>🔹 AI & Lab Reports</h2>
+        <ul>
+            <li><a href="{{ url_for('anemia_detection') }}">🩺 Anemia Detection</a></li>
+            <li><a href="{{ url_for('summarize') }}">✂️ Summarize Medical Record</a></li>
+            <li><a href="{{ url_for('upload_lab_report') }}">📤 Upload Lab Report</a></li>
+            <li><a href="{{ url_for('view_lab_report_replies') }}">📥 View Lab Report Replies</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+        <h1 class="animate-h1">Welcome to Swasthya - Your Health, Our Priority</h1>
+
+        <div class="patient-dashboard">
+            <h2>Welcome, {{ patient.name }}</h2>
+
+            <ul>
+                <li><a href="{{ url_for('video_call') }}">📹 Start a Video Call</a></li>
+                <li><a href="{{ url_for('medication_search') }}">💊 Medication Search</a></li>
+                <li><a href="{{ url_for('appointment') }}">🗓️ Book Appointment</a></li>
+                <li><a href="{{ url_for('logout') }}">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            let mainContent = document.getElementById("main-content");
+
+            if (sidebar.classList.contains("active")) {
+                sidebar.classList.remove("active");
+                mainContent.classList.remove("shift");
+            } else {
+                sidebar.classList.add("active");
+                mainContent.classList.add("shift");
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Doctors</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background:white;
+            color: #333;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: black;
+            
+            -webkit-text-fill-color: transparent;
+        }
+
+        h3 {
+            color: black;
+            font-size: 24px;
+            margin-top: 30px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 15px auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #8e44ad;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: black;
+            box-shadow: 0 0 10px rgba(192, 57, 43, 0.3);
+        }
+
+        button {
+            background: black;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 10px auto;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: black;
+            transform: scale(1.05);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            margin: 30px auto;
+            width: 80%;
+        }
+
+        li {
+            background: black;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-weight: bold;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(45deg, #82ccdd, #6a89cc);
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            color: #e84393;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+    <h1>Manage Doctors</h1>
+    <form method="POST">
+        <h3>Remove a Doctor</h3>
+        <label for="doctor_id">Doctor ID:</label>
+        <input type="text" name="doctor_id" required>
+        <button type="submit" name="action" value="remove">Remove Doctor</button>
+    </form>
+
+    <form method="POST">
+        <h3>Add a New Doctor</h3>
+        <label for="new_id">Doctor ID:</label>
+        <input type="text" name="new_id" required>
+        <label for="new_name">Name:</label>
+        <input type="text" name="new_name" required>
+        <label for="new_password">Password:</label>
+        <input type="password" name="new_password" required>
+        <label for="new_specialization">Specialization:</label>
+        <input type="text" name="new_specialization" required>
+        <label for="new_photo">Photo URL:</label>
+        <input type="text" name="new_photo">
+        <button type="submit" name="action" value="add">Add Doctor</button>
+    </form>
+
+    <h2>Current Doctors</h2>
+    <ul>
+        {% for doctor_id, doctor in doctors.items() %}
+        <li>{{ doctor_id }} - {{ doctor.name }} ({{ doctor.specialization }})</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+</body>
+</html>

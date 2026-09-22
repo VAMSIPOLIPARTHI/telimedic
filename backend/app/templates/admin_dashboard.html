@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* White Background */
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: black;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar .title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #FFD700; /* Gold Hover Effect */
+        }
+
+        /* Admin Logo */
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+        }
+
+        /* Main Content */
+        .container {
+            width: 80%;
+            margin: 120px auto 20px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Dashboard Buttons */
+        .dashboard-btn {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            background: black;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 15px;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            width: 180px;
+            height: auto;
+            border-radius: 50%;
+            margin-left: 20px;
+        }
+        .dashboard-btn:hover {
+            background:black;
+            transform: translateY(-3px);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background:black;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: black;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background: black;
+            color: white;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            margin-top: auto;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Admin Logo -->
+    <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="title">Admin Dashboard</div>
+        <div class="nav-links">
+            <a href="{{ url_for('admin_dashboard') }}">Home</a>
+            <a href="{{ url_for('logout_admin') }}" class="logout-btn" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Welcome, Admin</h1>
+        <a href="{{ url_for('manage_doctors') }}" class="dashboard-btn">
+            <i class="fas fa-user-md"></i> Manage Doctors
+        </a>
+        <a href="{{ url_for('manage_patients') }}" class="dashboard-btn">
+            <i class="fas fa-users"></i> Manage Patients
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        © 2025 Telemedicine App. All rights reserved.
+    </div>
+
+</body>
+</html>

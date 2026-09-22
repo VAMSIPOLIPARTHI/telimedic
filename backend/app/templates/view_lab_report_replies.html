@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Report Replies</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff; /* White Background */
+            color: #000; /* Black Text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 0px #000; /* Sharp Black Shadow */
+            text-align: center;
+            border: 2px solid #000; /* Black Border */
+        }
+
+        .logo {
+            width: 120px;
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 2px solid #000;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #000;
+        }
+
+        th {
+            background-color: #000;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Message Styling */
+        p {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        a {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #000; /* Black Button */
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #333;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/Swasthya logo with a catchy tagline.png') }}" alt="Swasthya Logo" class="logo">
+        <h1>Lab Report Replies</h1>
+
+        {% if lab_reports %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Uploaded At</th>
+                        <th>Doctor's Reply</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in lab_reports %}
+                        <tr>
+                            <td>{{ report.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ report.doctor_reply if report.doctor_reply else "No reply yet." }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No lab reports found.</p>
+        {% endif %}
+
+        <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+</html>
